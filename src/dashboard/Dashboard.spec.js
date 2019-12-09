@@ -22,3 +22,10 @@ test("Shows the controls and display", () => {
   expect(controls).toBeTruthy();
   expect(controls).toBeVisible();
 });
+
+test("<Dashboard /> snapshot", async () => {
+  const wrapper = render(<Dashboard />);
+  await wrapper.getByText(/open/i);
+
+  expect(wrapper.asFragment()).toMatchSnapshot();
+});
