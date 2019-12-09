@@ -20,3 +20,32 @@ test("Defaults to open and unlocked", () => {
   expect(open).toBeDefined();
   expect(unlocked).toBeDefined();
 });
+
+test("Display is closed and locked", () => {
+  const { getByText } = render(<Display closed={true} locked={true} />);
+  const unlocked = getByText(/locked/i);
+  const open = getByText(/closed/i);
+
+  expect(unlocked.textContent).toMatch("Locked");
+  expect(open.textContent).toMatch("Closed");
+});
+
+test("Displays Closed if the closed prop is true", () => {
+  const { getByText } = render(<Display closed={true} />);
+  expect(getByText(/closed/i).textContent).toMatch("Closed");
+});
+
+test("Displays Open if the closed prop is not true", () => {
+  const { getByText } = render(<Display closed={false} />);
+  expect(getByText(/open/i).textContent).toMatch("Open");
+});
+
+test("When closed or locked, uses the red-led class", () => {
+  const { getByText } = render(<Display closed={true} locked={true} />);
+  expect(getByText(/closed/i)).toHaveClass("red-led");
+});
+
+test("When open or unlocked, uses the green-led class", () => {
+  const { getByText } = render(<Display closed={false} locked={false} />);
+  expect(getByText(/open/i)).toHaveClass("green-led");
+});
